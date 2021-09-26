@@ -10,6 +10,6 @@ function magnitude_plot(w_approximate,w_groundTruth,G_approximate, G_groundTruth
     ylim([1e-1 1e2]);
     xlabel('$\omega$(rad)','Interpreter','Latex');
     ylabel('Magnitude(dB)');
-    %xlim([0.001 10])
+    xlim([0.001 10])
     legend({legend_approximate,legend_groundTruth},'Interpreter','Latex','Location','northwest');
 end
