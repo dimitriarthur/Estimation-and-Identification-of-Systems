@@ -1,0 +1,45 @@
+%define number of samples and simulate
+N = 1000;
+[y,u] = simulateSystem(N);
+omega = linspace(0,2*pi,N);
+
+%compute manual dft
+U_N = compute_dft(N,u',omega);
+Y_N = compute_dft(N,y,omega);
+
+U_N = U_N./sqrt(N);
+Y_N = Y_N./sqrt(N);
+
+%compute approximate TF and ground-truth TF
+G_double_hat = abs(Y_N./U_N);
+syms q
+z = tf('z');
+H = (z+0.5*z^2)/(0.7*z^2 - 1.5*z +1);
+[mag_groundTruth,phase_groundTruth, omega_groundTruth] = bode(H);
+
+%plot results for approximation
+magnitude_plot(omega,omega_groundTruth,G_double_hat,squeeze(mag_groundTruth),'ETFE','$|G_0(e^{j\omega})|$')
+
+
+omega_window = linspace(-pi,pi,N);
+module_squared_U_N = abs(U_N).^2;
+G_smoothed=zeros(1,N);
+
+for gamma=[10, 50, 200]
+   for i=1:N
+       window = parzenWindow(gamma,omega_window-omega(i));
+       num = sum(window.*module_squared_U_N.*abs(Y_N./U_N));
+       den = sum(window.*module_squared_U_N);
+       G_smoothed(i) = num./den;
+   end
+   figure()
+   magnitude_plot(omega_window,omega_groundTruth,G_smoothed,squeeze(mag_groundTruth),'$\hat G(e^{j\omega})$','$|G_0(e^{j\omega})|$')
+end
+
+
+for i=1:N
+       window = parzenWindow(gamma,omega_window-omega(i));
+       num = sum(window.*module_squared_U_N.*abs(Y_N./U_N));
+       den = sum(window.*module_squared_U_N);
+       G_smoothed(i) = num./den;
+   end

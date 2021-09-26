@@ -12,3 +12,16 @@ xlim([1e-2 4])
 xlabel('$\omega$','interpreter','Latex');
 ylabel('$\Phi_s(\omega)$','interpreter','Latex');
 title('Spectrum - $v(t)$','interpreter','Latex','FontSize',13)
+
+
+
+syms q;
+H = (q+0.5*q^2)/(1-1.5*q+0.7*q^2);
+spectrum = vpa(abs(subs(H,q,exp(-j*logspace(-2,1,N))))).^2;
+loglog(logspace(-2,1,N),spectrum,'LineWidth',1)
+grid;
+yticks([1 10 100])
+xticks([0.1 1])
+xlabel('$\omega$','interpreter','Latex');
+ylabel('$\Phi_s(\omega)$','interpreter','Latex');
+title('Spectrum - $v(t)$','interpreter','Latex','FontSize',13)
