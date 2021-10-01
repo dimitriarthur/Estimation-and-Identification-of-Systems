@@ -1,6 +1,5 @@
 %define number of samples and simulate
 N = 1000;
-[y,u] = simulateSystem(N);
 omega_0 = linspace(0,2*pi,N);
 xi_frequency = linspace(-pi,pi,N);
 

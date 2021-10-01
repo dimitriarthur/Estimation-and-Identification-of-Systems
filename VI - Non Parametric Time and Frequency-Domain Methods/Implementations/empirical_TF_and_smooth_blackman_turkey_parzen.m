@@ -16,7 +16,6 @@ for gamma=[10, 50, 200]
        den = sum(window.*Phi_u);
        G_smoothed_blackman_turkey(cont,i) = num./den;
    end
-   
 end
 
 figure()
